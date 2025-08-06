@@ -8,7 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    /* Chemistry-themed design system */
+    --background: 240 10% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,13 +18,15 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Chemistry brand colors */
+    --primary: 348 83% 57%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 348 83% 47%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 220 13% 91%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: 210 40% 96.1%;
@@ -32,9 +35,28 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 348 83% 57%;
+
+    /* Chemistry-specific colors */
+    --chemistry-red: 348 83% 57%;
+    --chemistry-blue: 221 83% 53%;
+    --chemistry-green: 142 76% 36%;
+    --chemistry-purple: 262 83% 58%;
+    --chemistry-orange: 25 95% 53%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(348 83% 57%), hsl(348 83% 47%));
+    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 18%), hsl(220 13% 28%));
+    --gradient-bg: linear-gradient(135deg, hsl(240 10% 98%), hsl(220 13% 96%));
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(220 13% 18% / 0.1);
+    --shadow-glow: 0 0 40px hsl(348 83% 57% / 0.15);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --radius: 0.5rem;
 
@@ -101,5 +123,158 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Chemistry-themed component styles */
+@layer components {
+  /* Chat interface styles */
+  .chat-container {
+    @apply min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100;
+  }
+
+  .chat-header {
+    @apply bg-white rounded-2xl shadow-xl p-6 border border-gray-100;
+  }
+
+  .chat-bot-avatar {
+    @apply w-14 h-14 rounded-full flex items-center justify-center shadow-lg;
+    background: var(--gradient-primary);
+  }
+
+  .chat-message-container {
+    @apply bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden;
+  }
+
+  .chat-message-header {
+    @apply px-6 py-4 border-b border-gray-200;
+    background: var(--gradient-bg);
+  }
+
+  /* Formula rendering */
+  .chat-formula-box {
+    @apply inline-flex items-center px-3 py-1.5 rounded-lg font-mono mx-1 shadow-sm hover:shadow-md text-sm font-semibold;
+    background: linear-gradient(135deg, hsl(var(--chemistry-blue) / 0.1), hsl(var(--chemistry-purple) / 0.1));
+    border: 2px solid hsl(var(--chemistry-blue) / 0.3);
+    color: hsl(var(--chemistry-blue));
+    transition: var(--transition-smooth);
+  }
+
+  .chat-formula-box:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Answer sections */
+  .chat-answer-section {
+    @apply mb-4 p-4 rounded-lg border-l-4;
+    background: linear-gradient(135deg, hsl(var(--chemistry-green) / 0.05), hsl(var(--chemistry-green) / 0.1));
+    border-left-color: hsl(var(--chemistry-green));
+  }
+
+  .chat-answer-content {
+    @apply flex items-center gap-2;
+  }
+
+  .chat-answer-text {
+    @apply font-semibold;
+    color: hsl(var(--chemistry-green));
+  }
+
+  /* Calculation sections */
+  .chat-calculation-box {
+    @apply mb-3 p-3 rounded-lg border;
+    background: hsl(var(--muted) / 0.5);
+    border-color: hsl(var(--border));
+  }
+
+  .chat-calculation-content {
+    @apply flex items-center gap-2;
+  }
+
+  .chat-calculation-text {
+    @apply font-mono text-sm;
+    color: hsl(var(--chemistry-purple));
+  }
+
+  /* Question sections */
+  .chat-question-section {
+    @apply mb-4 p-4 rounded-lg;
+    background: linear-gradient(135deg, hsl(var(--chemistry-orange) / 0.05), hsl(var(--chemistry-orange) / 0.1));
+    border: 1px solid hsl(var(--chemistry-orange) / 0.2);
+  }
+
+  .chat-question-label {
+    @apply font-bold text-lg mb-2 block;
+    color: hsl(var(--chemistry-orange));
+  }
+
+  /* Table styles */
+  .chat-table-container {
+    @apply my-6 overflow-x-auto bg-white rounded-xl shadow-lg border border-gray-200;
+  }
+
+  .chat-table {
+    @apply min-w-full;
+  }
+
+  .chat-table-header {
+    background: var(--gradient-primary);
+    @apply text-white;
+  }
+
+  .chat-table-th {
+    @apply px-6 py-4 text-left text-sm font-semibold;
+  }
+
+  .chat-table-row {
+    @apply hover:bg-blue-50 transition-colors;
+  }
+
+  .chat-table-row-even {
+    @apply bg-gray-50;
+  }
+
+  .chat-table-row-odd {
+    @apply bg-white;
+  }
+
+  .chat-table-td {
+    @apply px-6 py-4 text-sm text-gray-700 border-b border-gray-200;
+  }
+
+  /* Selection grid styles */
+  .selection-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6;
+  }
+
+  .selection-button {
+    @apply p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-primary hover:shadow-lg transition-all duration-200 text-center font-semibold text-lg;
+  }
+
+  .selection-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .selection-button.selected {
+    background: var(--gradient-primary);
+    @apply text-white border-primary;
+  }
+
+  /* Step indicator */
+  .step-indicator {
+    @apply flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold;
+    background: var(--gradient-primary);
+    @apply text-white;
+  }
+
+  /* Input styles */
+  .chemistry-input {
+    @apply w-full p-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none transition-colors;
+  }
+
+  .chemistry-input:focus {
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
   }
 }

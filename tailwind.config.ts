@@ -26,11 +26,19 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
+				},
+				chemistry: {
+					red: 'hsl(var(--chemistry-red))',
+					blue: 'hsl(var(--chemistry-blue))',
+					green: 'hsl(var(--chemistry-green))',
+					purple: 'hsl(var(--chemistry-purple))',
+					orange: 'hsl(var(--chemistry-orange))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
