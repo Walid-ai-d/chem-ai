@@ -151,27 +151,26 @@ All colors MUST be HSL.
     background: var(--gradient-bg);
   }
 
-  /* Formula rendering - cleaner inline style */
+  /* Formula rendering - clean minimal style */
   .formula-inline {
-    @apply inline-block font-mono font-medium;
-    color: hsl(var(--chemistry-blue));
+    @apply inline font-medium text-blue-600;
   }
 
   .formula-inline sub,
   .formula-inline sup {
-    color: hsl(var(--chemistry-purple));
+    @apply text-purple-600;
   }
 
   .formula-inline .fraction {
-    @apply inline-flex flex-col items-center mx-1;
+    @apply inline-flex flex-col items-center mx-1 text-sm;
   }
 
   .formula-inline .numerator {
-    @apply border-b border-current text-xs px-1;
+    @apply border-b border-current px-1;
   }
 
   .formula-inline .denominator {
-    @apply text-xs px-1;
+    @apply px-1;
   }
 
   /* Answer sections */

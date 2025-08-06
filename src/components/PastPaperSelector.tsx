@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ArrowRight, Calendar, BookOpen, FileText, Hash, MoreHorizontal, Check } from 'lucide-react';
+import { ChevronLeft, ArrowRight, Calendar, BookOpen, FileText, Hash, MoreHorizontal, Check, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -30,16 +30,16 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
 
   const years = ['2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015'];
   const sessions = [
-    { value: 'may-june', label: 'May/June', icon: '🌸' },
-    { value: 'oct-nov', label: 'Oct/Nov', icon: '🍂' },
-    { value: 'feb-march', label: 'Feb/March', icon: '❄️' }
+    { value: 'may-june', label: 'May/June' },
+    { value: 'oct-nov', label: 'Oct/Nov' },
+    { value: 'feb-march', label: 'Feb/March' }
   ];
   const papers = ['1', '2', '3', '4', '5'];
   const variants = ['1', '2', '3'];
 
   const stepTitles = {
     year: 'Select Year',
-    session: 'Select Session',
+    session: 'Select Session', 
     paper: 'Choose Paper',
     variant: 'Choose Variant',
     question: 'Question Number',
@@ -64,22 +64,21 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
       if (currentIndex < steps.length - 1) {
         setCurrentStep(steps[currentIndex + 1]);
       } else if (currentStep === 'subpart') {
-        // Auto-complete if we're at the last step
         onComplete(selection);
       }
     };
 
-    // Auto-progress after selection with delay for better UX
+    // Auto-progress after selection with shorter delay
     if (currentStep === 'year' && selection.year) {
-      setTimeout(autoProgress, 800);
+      setTimeout(autoProgress, 600);
     } else if (currentStep === 'session' && selection.session) {
-      setTimeout(autoProgress, 800);
+      setTimeout(autoProgress, 600);
     } else if (currentStep === 'paper' && selection.paperNumber) {
-      setTimeout(autoProgress, 800);
+      setTimeout(autoProgress, 600);
     } else if (currentStep === 'variant' && selection.variant) {
-      setTimeout(autoProgress, 800);
+      setTimeout(autoProgress, 600);
     } else if (currentStep === 'question' && selection.questionNumber) {
-      setTimeout(autoProgress, 800);
+      setTimeout(autoProgress, 600);
     }
   }, [selection, currentStep, onComplete]);
 
@@ -103,8 +102,8 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
     const currentIndex = steps.indexOf(currentStep);
     
     return (
-      <div className="flex items-center justify-center mb-12">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center mb-8">
+        <div className="flex items-center gap-2">
           {steps.map((step, index) => {
             const Icon = stepIcons[step];
             const isCompleted = index < currentIndex;
@@ -113,24 +112,24 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
             return (
               <div key={step} className="flex items-center">
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                     isCompleted
-                      ? 'bg-gradient-to-r from-chemistry-green to-green-500 text-white scale-105'
+                      ? 'bg-blue-500 text-white'
                       : isCurrent
-                      ? 'bg-gradient-to-r from-chemistry-blue to-blue-500 text-white scale-110 shadow-lg'
-                      : 'bg-muted text-muted-foreground'
+                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                      : 'bg-gray-200 text-gray-400'
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-5 h-5" />
+                    <Check className="w-4 h-4" />
                   ) : (
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-4 h-4" />
                   )}
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-12 h-1 mx-2 rounded-full transition-all duration-500 ${
-                      isCompleted ? 'bg-chemistry-green' : 'bg-muted'
+                    className={`w-6 h-px mx-1 transition-all duration-300 ${
+                      isCompleted ? 'bg-blue-500' : 'bg-gray-200'
                     }`}
                   />
                 )}
@@ -143,153 +142,153 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto animate-fade-in">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
+    <div className="max-w-3xl mx-auto animate-fade-in">
+      {/* Minimal Header */}
+      <div className="flex items-center gap-3 mb-6">
         <button
           onClick={handleBack}
-          className="p-3 hover:bg-accent rounded-full transition-all duration-200 hover:scale-105"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
         <div>
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-chemistry-blue to-chemistry-purple bg-clip-text text-transparent">
+          <h2 className="text-2xl font-semibold text-gray-800">
             {stepTitles[currentStep]}
           </h2>
-          <p className="text-muted-foreground mt-1">Step {['year', 'session', 'paper', 'variant', 'question', 'subpart'].indexOf(currentStep) + 1} of 6</p>
         </div>
       </div>
 
       {renderProgressBar()}
 
-      {/* Content */}
-      <div className="bg-card rounded-3xl p-8 shadow-xl border border-border min-h-[300px] animate-scale-in">
+      {/* Compact Content */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm animate-scale-in">
         {currentStep === 'year' && (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-5 gap-3">
             {years.map((year, index) => (
               <button
                 key={year}
                 onClick={() => setSelection({ ...selection, year })}
-                className={`p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in ${
+                className={`p-4 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 animate-fade-in ${
                   selection.year === year
-                    ? 'border-chemistry-blue bg-gradient-to-r from-chemistry-blue/10 to-blue-500/10 text-chemistry-blue'
-                    : 'border-border hover:border-chemistry-blue/50 bg-background'
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
-                <Calendar className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-xl font-bold">{year}</div>
+                {year}
               </button>
             ))}
           </div>
         )}
 
         {currentStep === 'session' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-4">
             {sessions.map((session, index) => (
               <button
                 key={session.value}
                 onClick={() => setSelection({ ...selection, session: session.value })}
-                className={`p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in ${
+                className={`p-4 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 animate-fade-in ${
                   selection.session === session.value
-                    ? 'border-chemistry-green bg-gradient-to-r from-chemistry-green/10 to-green-500/10 text-chemistry-green'
-                    : 'border-border hover:border-chemistry-green/50 bg-background'
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
-                <div className="text-4xl mb-4">{session.icon}</div>
-                <div className="text-xl font-bold">{session.label}</div>
+                <BookOpen className="w-4 h-4 mx-auto mb-2" />
+                {session.label}
               </button>
             ))}
           </div>
         )}
 
         {currentStep === 'paper' && (
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-5 gap-3">
             {papers.map((paper, index) => (
               <button
                 key={paper}
                 onClick={() => setSelection({ ...selection, paperNumber: paper })}
-                className={`p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in ${
+                className={`p-4 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 animate-fade-in ${
                   selection.paperNumber === paper
-                    ? 'border-chemistry-orange bg-gradient-to-r from-chemistry-orange/10 to-orange-500/10 text-chemistry-orange'
-                    : 'border-border hover:border-chemistry-orange/50 bg-background'
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
-                <FileText className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-xl font-bold">Paper {paper}</div>
+                <FileText className="w-4 h-4 mx-auto mb-1" />
+                Paper {paper}
               </button>
             ))}
           </div>
         )}
 
         {currentStep === 'variant' && (
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-4">
             {variants.map((variant, index) => (
               <button
                 key={variant}
                 onClick={() => setSelection({ ...selection, variant })}
-                className={`p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in ${
+                className={`p-4 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 animate-fade-in ${
                   selection.variant === variant
-                    ? 'border-chemistry-purple bg-gradient-to-r from-chemistry-purple/10 to-purple-500/10 text-chemistry-purple'
-                    : 'border-border hover:border-chemistry-purple/50 bg-background'
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
-                <Hash className="w-6 h-6 mx-auto mb-2" />
-                <div className="text-xl font-bold">Variant {variant}</div>
+                <Hash className="w-4 h-4 mx-auto mb-2" />
+                Variant {variant}
               </button>
             ))}
           </div>
         )}
 
         {currentStep === 'question' && (
-          <div className="max-w-md mx-auto">
-            <div className="mb-6 text-center">
-              <Hash className="w-8 h-8 mx-auto mb-2 text-chemistry-blue" />
-              <p className="text-muted-foreground">Enter the question number</p>
+          <div className="max-w-xs mx-auto">
+            <div className="mb-4 text-center">
+              <Hash className="w-5 h-5 mx-auto mb-1 text-blue-500" />
+              <p className="text-sm text-gray-600">Question number</p>
             </div>
             <Input
               type="text"
               placeholder="e.g., 1, 2, 3..."
               value={selection.questionNumber}
               onChange={(e) => setSelection({ ...selection, questionNumber: e.target.value })}
-              className="text-center text-xl py-6 rounded-xl border-2 focus:border-chemistry-blue"
+              className="text-center text-lg py-3 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               autoFocus
             />
           </div>
         )}
 
         {currentStep === 'subpart' && (
-          <div className="max-w-md mx-auto">
-            <div className="mb-6 text-center">
-              <MoreHorizontal className="w-8 h-8 mx-auto mb-2 text-chemistry-green" />
-              <p className="text-muted-foreground">Enter subpart (optional)</p>
+          <div className="max-w-xs mx-auto">
+            <div className="mb-4 text-center">
+              <MoreHorizontal className="w-5 h-5 mx-auto mb-1 text-blue-500" />
+              <p className="text-sm text-gray-600">Subpart (optional)</p>
             </div>
             <Input
               type="text"
               placeholder="e.g., a, b, c, i, ii..."
               value={selection.subpart}
               onChange={(e) => setSelection({ ...selection, subpart: e.target.value })}
-              className="text-center text-xl py-6 rounded-xl border-2 focus:border-chemistry-green"
+              className="text-center text-lg py-3 rounded-lg border focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
               autoFocus
             />
-            <div className="flex gap-4 mt-8 justify-center">
+            <div className="flex gap-3 mt-6 justify-center">
               <Button
                 onClick={handleSkip}
                 variant="outline"
-                className="flex items-center gap-2 px-8"
+                className="flex items-center gap-2 text-sm"
+                size="sm"
               >
-                Skip & Continue
-                <ArrowRight className="w-4 h-4" />
+                Skip
+                <ArrowRight className="w-3 h-3" />
               </Button>
               <Button
                 onClick={() => onComplete(selection)}
-                className="flex items-center gap-2 px-8"
+                className="flex items-center gap-2 text-sm"
+                size="sm"
               >
                 Complete
-                <Check className="w-4 h-4" />
+                <Check className="w-3 h-3" />
               </Button>
             </div>
           </div>

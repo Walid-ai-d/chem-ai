@@ -354,7 +354,7 @@ const ChatDocumentParser: React.FC<ChatDocumentParserProps> = ({ content }) => {
       
       case 'bold':
         return (
-          <strong key={index} className="font-semibold text-gray-900 bg-yellow-100 px-1 rounded">
+          <strong key={index} className="font-semibold text-gray-900">
             {element.content as string}
           </strong>
         );
