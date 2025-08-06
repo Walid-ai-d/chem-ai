@@ -246,7 +246,7 @@ const ChatDocumentParser: React.FC<ChatDocumentParserProps> = ({ content }) => {
     
     return (
       <span 
-        className="chat-formula-box"
+        className="formula-inline"
         dangerouslySetInnerHTML={{ __html: rendered }}
       />
     );

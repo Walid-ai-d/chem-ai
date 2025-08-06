@@ -78,14 +78,14 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
     const userMessage: ChatMessage = {
       id: '1',
       isBot: false,
-      content: `solve ${selection.session?.replace('-', '/')} ${selection.year} paper ${selection.paperNumber} q ${selection.questionNumber}${selection.subpart ? ' ' + selection.subpart : ''}`,
+      content: `solve ${selection.session?.replace('-', '/')} ${selection.year} paper ${selection.paperNumber} variant ${selection.variant} q ${selection.questionNumber}${selection.subpart ? ' ' + selection.subpart : ''}`,
       timestamp: '17:51'
     };
 
     const botMessage: ChatMessage = {
       id: '2',
       isBot: true,
-      content: `Great! I'll help you solve ${selection.session?.replace('-', '/')} ${selection.year} paper ${selection.paperNumber} question ${selection.questionNumber}${selection.subpart ? ' part ' + selection.subpart : ''}. Let's start by selecting the exam details.`,
+      content: `Great! I'll help you solve ${selection.session?.replace('-', '/')} ${selection.year} paper ${selection.paperNumber} variant ${selection.variant} question ${selection.questionNumber}${selection.subpart ? ' part ' + selection.subpart : ''}. Let me find the solution for you.`,
       timestamp: '17:50'
     };
 
