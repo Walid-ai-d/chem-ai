@@ -5,9 +5,10 @@ interface ChatMessageProps {
   isBot?: boolean;
   children: ReactNode;
   timestamp?: string;
+  imageUrl?: string;
 }
 
-const ChatMessage = ({ isBot = true, children, timestamp }: ChatMessageProps) => {
+const ChatMessage = ({ isBot = true, children, timestamp, imageUrl }: ChatMessageProps) => {
   return (
     <div className="mb-6">
       <div className="flex items-start gap-3">
@@ -30,6 +31,15 @@ const ChatMessage = ({ isBot = true, children, timestamp }: ChatMessageProps) =>
             )}
           </div>
           <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+            {imageUrl && (
+              <div className="mb-3">
+                <img 
+                  src={imageUrl} 
+                  alt="Uploaded image" 
+                  className="max-w-sm rounded-lg border border-gray-200"
+                />
+              </div>
+            )}
             {children}
           </div>
         </div>

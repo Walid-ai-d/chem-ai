@@ -13,6 +13,7 @@ interface ChatMessage {
   isBot: boolean;
   content: string;
   timestamp: string;
+  imageUrl?: string;
 }
 const ChemBot = () => {
   const [appState, setAppState] = useState<AppState>('welcome');
@@ -93,10 +94,17 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
   };
   const handleSendMessage = (messageText: string, image?: File) => {
     if (!messageText.trim() && !image) return;
+    
+    let imageUrl: string | undefined;
+    if (image) {
+      imageUrl = URL.createObjectURL(image);
+    }
+    
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       isBot: false,
       content: messageText,
+      imageUrl,
       timestamp: new Date().toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit'
@@ -137,7 +145,7 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
             {appState === 'selecting-paper' && <PastPaperSelector onComplete={handlePaperSelectionComplete} onBack={handleBackFromSelector} />}
 
             {appState === 'chat' && <div className="space-y-4">
-                {messages.map(message => <ChatMessage key={message.id} isBot={message.isBot} timestamp={message.timestamp}>
+                {messages.map(message => <ChatMessage key={message.id} isBot={message.isBot} timestamp={message.timestamp} imageUrl={message.imageUrl}>
                     {message.isBot && message.content.includes('##') ? <ChatDocumentParser content={message.content} /> : <div className="text-foreground leading-relaxed">
                         {message.content}
                       </div>}
