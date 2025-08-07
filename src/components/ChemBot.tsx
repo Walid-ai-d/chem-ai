@@ -6,6 +6,7 @@ import WelcomeScreen from './WelcomeScreen';
 import PastPaperSelector from './PastPaperSelector';
 import ChatMessage from './ChatMessage';
 import ChatDocumentParser from './ChatDocumentParser';
+import ChatInput from './ChatInput';
 
 type AppState = 'welcome' | 'selecting-paper' | 'chat';
 
@@ -103,37 +104,59 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
     setAppState('welcome');
   };
 
-  return (
-    <div className="chat-container">
-      <div className="max-w-6xl mx-auto p-6">
-        {/* Fixed Header */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <ChemBotHeader />
-            </div>
-            <Button
-              onClick={handleNewChat}
-              className="flex items-center gap-2 ml-4"
-            >
-              <Plus className="w-4 h-4" />
-              New Chat
-            </Button>
-          </div>
-        </div>
+  const handleSendMessage = (messageText: string, image?: File) => {
+    if (!messageText.trim() && !image) return;
 
-        {/* Main Content */}
-        <div className="chat-message-container">
-          <div className="chat-message-header">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-chemistry-red to-primary rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">C</span>
-              </div>
-              <span className="font-semibold text-gray-700">Chemistry Assistant</span>
-            </div>
-          </div>
-          
-          <div className="p-8">
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      isBot: false,
+      content: messageText,
+      timestamp: new Date().toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+
+    // Simulate bot response
+    setTimeout(() => {
+      const botMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        isBot: true,
+        content: 'I understand your question about chemistry. Let me help you with that...',
+        timestamp: new Date().toLocaleTimeString('en-US', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        })
+      };
+      setMessages(prev => [...prev, botMessage]);
+    }, 1000);
+  };
+
+  return (
+    <div className="flex flex-col h-screen bg-background">
+      {/* Header */}
+      <div className="border-b border-border p-4">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <ChemBotHeader />
+          <Button
+            onClick={handleNewChat}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            New Chat
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full max-w-4xl mx-auto flex flex-col">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-4">
             {appState === 'welcome' && (
               <WelcomeScreen
                 onSolvePastPapers={handleSolvePastPapers}
@@ -150,7 +173,7 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
             )}
 
             {appState === 'chat' && (
-              <div className="max-w-4xl mx-auto">
+              <div className="space-y-4">
                 {messages.map((message) => (
                   <ChatMessage
                     key={message.id}
@@ -160,7 +183,7 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
                     {message.isBot && message.content.includes('##') ? (
                       <ChatDocumentParser content={message.content} />
                     ) : (
-                      <div className="text-gray-700 leading-relaxed">
+                      <div className="text-foreground leading-relaxed">
                         {message.content}
                       </div>
                     )}
@@ -169,10 +192,10 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
                 
                 {messages.length === 0 && (
                   <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h2 className="text-xl font-semibold text-foreground mb-2">
                       Ask me anything about chemistry!
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-muted-foreground text-sm">
                       I can help with reactions, calculations, concepts, and more.
                     </p>
                   </div>
@@ -180,6 +203,11 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
               </div>
             )}
           </div>
+
+          {/* Chat Input */}
+          {appState === 'chat' && (
+            <ChatInput onSendMessage={handleSendMessage} />
+          )}
         </div>
       </div>
     </div>
