@@ -128,10 +128,9 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
   };
   return <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border p-4">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
+      <div className="">,
+        <div className="w-full">
           <ChemBotHeader />
-          
         </div>
       </div>
 
