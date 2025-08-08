@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { X, Plus, FlaskConical, MessageSquare } from 'lucide-react';
+import { ChevronLeft, Plus, FlaskConical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ChatHistory {
   id: string;
   title: string;
+  subtitle: string;
   timestamp: string;
 }
 
@@ -16,11 +17,48 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen, onToggle, onNewChat }: SidebarProps) => {
   const [chatHistory] = useState<ChatHistory[]>([
-    { id: '1', title: 'Chemical Equilibrium Problem', timestamp: '2m ago' },
-    { id: '2', title: 'Organic Reactions Help', timestamp: '1h ago' },
-    { id: '3', title: 'Past Paper Oct/Nov 2018', timestamp: '3h ago' },
-    { id: '4', title: 'Titration Calculations', timestamp: '1d ago' },
-    { id: '5', title: 'Molecular Geometry', timestamp: '2d ago' },
+    {
+      id: '1',
+      title: 'New Conversation',
+      subtitle: 'Great! I\'ll help you solve past paper questi...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '2',
+      title: 'New Conversation',
+      subtitle: 'Hi! I\'m ChemBot, your chemistry AI tutor. I...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '3',
+      title: 'New Conversation',
+      subtitle: 'Great! I\'ll help you solve past paper questi...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '4',
+      title: 'solve oct/nov 2018 paper 21 q 2 a',
+      subtitle: 'Great! I\'ll help you solve past paper questi...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '5',
+      title: 'solve oct/nov 2018 paper 21 q 2 a',
+      subtitle: 'Great! I\'ll help you solve past paper questi...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '6',
+      title: 'New Conversation',
+      subtitle: 'Great! I\'ll help you solve past paper questi...',
+      timestamp: '06/08/2025'
+    },
+    {
+      id: '7',
+      title: 'New Conversation',
+      subtitle: 'Hi! I\'m ChemBot, your chemistry AI tutor. I...',
+      timestamp: '06/08/2025'
+    }
   ]);
 
   if (!isOpen) {
@@ -30,66 +68,68 @@ const Sidebar = ({ isOpen, onToggle, onNewChat }: SidebarProps) => {
           onClick={onToggle}
           variant="outline"
           size="icon"
-          className="shadow-sm"
+          className="bg-white shadow-lg"
         >
-          <MessageSquare className="w-4 h-4" />
+          <FlaskConical className="w-4 h-4" />
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" onClick={onToggle}>
-      <div 
-        className="fixed left-4 top-1/2 -translate-y-1/2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 animate-scale-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex flex-col h-[600px]">
-          {/* Header */}
-          <div className="p-6 border-b border-gray-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-500 rounded-xl flex items-center justify-center">
-                  <FlaskConical className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-semibold text-gray-900">ChemBot</span>
-              </div>
-              <Button
-                onClick={onToggle}
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-gray-100"
-              >
-                <X className="w-4 h-4" />
-              </Button>
+    <div className="fixed inset-y-0 left-0 z-50 w-80 bg-secondary text-secondary-foreground shadow-2xl">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-chemistry-red to-primary rounded-md flex items-center justify-center">
+              <FlaskConical className="w-5 h-5 text-white" />
             </div>
-            
-            <Button
-              onClick={onNewChat}
-              className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-0 rounded-xl h-10"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              New Chat
-            </Button>
+            <span className="font-bold text-white">ChemBot</span>
           </div>
+          <Button
+            onClick={onToggle}
+            variant="ghost"
+            size="icon"
+            className="text-gray-400 hover:text-white"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+        </div>
+        
+        <Button
+          onClick={onNewChat}
+          className="w-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
+          variant="outline"
+        >
+          <Plus className="w-4 h-4" />
+          New Chat
+        </Button>
+      </div>
 
-          {/* Chat History */}
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-2">
-              {chatHistory.map((chat) => (
-                <button
-                  key={chat.id}
-                  className="w-full text-left p-3 rounded-xl hover:bg-gray-50 transition-all duration-200 group"
-                >
-                  <div className="font-medium text-gray-900 truncate mb-1 text-sm">
-                    {chat.title}
-                  </div>
-                  <div className="text-gray-500 text-xs">
-                    {chat.timestamp}
-                  </div>
-                </button>
-              ))}
-            </div>
+      {/* Chat History */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-4">
+          <h3 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">
+            Recent Chats
+          </h3>
+          <div className="space-y-2">
+            {chatHistory.map((chat) => (
+              <button
+                key={chat.id}
+                className="w-full text-left p-3 rounded-lg hover:bg-white/5 transition-colors group"
+              >
+                <h4 className="text-white font-medium text-sm mb-1 truncate">
+                  {chat.title}
+                </h4>
+                <p className="text-gray-400 text-xs truncate mb-1">
+                  {chat.subtitle}
+                </p>
+                <span className="text-gray-500 text-xs">
+                  General • {chat.timestamp}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
