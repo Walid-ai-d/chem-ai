@@ -1,19 +1,26 @@
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import ChemBotHeader from './ChemBotHeader';
 import WelcomeScreen from './WelcomeScreen';
 import PastPaperSelector from './PastPaperSelector';
 import ChatMessage from './ChatMessage';
 import ChatDocumentParser from './ChatDocumentParser';
+import ChatInput from './ChatInput';
 
 type AppState = 'welcome' | 'selecting-paper' | 'chat';
+
+type Attachment = {
+  id: string;
+  type: 'image' | 'file';
+  url: string;
+  name: string;
+};
 
 interface ChatMessage {
   id: string;
   isBot: boolean;
   content: string;
   timestamp: string;
+  attachments?: Attachment[];
 }
 
 const ChemBot = () => {
@@ -112,13 +119,6 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
             <div className="flex-1">
               <ChemBotHeader />
             </div>
-            <Button
-              onClick={handleNewChat}
-              className="flex items-center gap-2 ml-4"
-            >
-              <Plus className="w-4 h-4" />
-              New Chat
-            </Button>
           </div>
         </div>
 

@@ -1,17 +1,15 @@
-import { BookOpen, MessageCircleQuestion, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { BookOpen, MessageCircleQuestion } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onSolvePastPapers: () => void;
   onAskQuestions: () => void;
-  onNewChat: () => void;
 }
 
-const WelcomeScreen = ({ onSolvePastPapers, onAskQuestions, onNewChat }: WelcomeScreenProps) => {
+const WelcomeScreen = ({ onSolvePastPapers, onAskQuestions }: WelcomeScreenProps) => {
   return (
-    <div className="text-center max-w-2xl mx-auto">
+    <div className="text-center max-w-2xl mx-auto animate-enter">
       <div className="mb-8">
-        <h2 className="text-4xl font-bold text-gray-800 mb-4">
+        <h2 className="text-4xl font-bold text-gray-800 mb-4 animate-fade-in">
           How can I help you today?
         </h2>
         <p className="text-xl text-gray-600">
@@ -47,14 +45,6 @@ const WelcomeScreen = ({ onSolvePastPapers, onAskQuestions, onNewChat }: Welcome
         </button>
       </div>
 
-      <Button
-        onClick={onNewChat}
-        variant="outline"
-        className="flex items-center gap-2 mx-auto"
-      >
-        <Plus className="w-4 h-4" />
-        New Chat
-      </Button>
     </div>
   );
 };
