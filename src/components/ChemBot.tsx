@@ -110,6 +110,18 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
     setAppState('welcome');
   };
 
+  const handleSend = (text: string, attachments: Attachment[] = []) => {
+    const ts = new Date();
+    const timestamp = ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const userMessage: ChatMessage = {
+      id: `${ts.getTime()}`,
+      isBot: false,
+      content: text,
+      timestamp,
+      attachments,
+    };
+    setMessages((prev) => [...prev, userMessage]);
+  };
   return (
     <div className="chat-container">
       <div className="max-w-6xl mx-auto p-6">
@@ -138,7 +150,6 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
               <WelcomeScreen
                 onSolvePastPapers={handleSolvePastPapers}
                 onAskQuestions={handleAskQuestions}
-                onNewChat={handleNewChat}
               />
             )}
 
@@ -149,36 +160,55 @@ Therefore, the reaction favors the formation of $N_2O_4$ at this temperature.
               />
             )}
 
-            {appState === 'chat' && (
-              <div className="max-w-4xl mx-auto">
-                {messages.map((message) => (
-                  <ChatMessage
-                    key={message.id}
-                    isBot={message.isBot}
-                    timestamp={message.timestamp}
-                  >
-                    {message.isBot && message.content.includes('##') ? (
-                      <ChatDocumentParser content={message.content} />
-                    ) : (
-                      <div className="text-gray-700 leading-relaxed">
-                        {message.content}
-                      </div>
-                    )}
-                  </ChatMessage>
-                ))}
-                
-                {messages.length === 0 && (
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                      Ask me anything about chemistry!
-                    </h2>
-                    <p className="text-gray-600">
-                      I can help with reactions, calculations, concepts, and more.
-                    </p>
+              {appState === 'chat' && (
+                <div className="max-w-4xl mx-auto">
+                  {messages.map((message) => (
+                    <ChatMessage
+                      key={message.id}
+                      isBot={message.isBot}
+                      timestamp={message.timestamp}
+                    >
+                      {message.isBot && message.content.includes('##') ? (
+                        <ChatDocumentParser content={message.content} />
+                      ) : (
+                        <div className="text-gray-700 leading-relaxed space-y-3">
+                          {message.content && <p>{message.content}</p>}
+                          {message.attachments && message.attachments.length > 0 && (
+                            <div className="flex flex-wrap gap-3">
+                              {message.attachments.map((att) => (
+                                <div key={att.id} className="rounded-lg border border-gray-200 bg-white p-2 shadow-sm">
+                                  {att.type === 'image' ? (
+                                    // eslint-disable-next-line jsx-a11y/alt-text
+                                    <img src={att.url} alt={att.name} className="h-40 w-40 object-cover rounded" loading="lazy" />
+                                  ) : (
+                                    <a href={att.url} target="_blank" rel="noreferrer" className="text-blue-600 underline">
+                                      {att.name}
+                                    </a>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </ChatMessage>
+                  ))}
+                  {messages.length === 0 && (
+                    <div className="text-center py-12">
+                      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                        Ask me anything about chemistry!
+                      </h2>
+                      <p className="text-gray-600">
+                        I can help with reactions, calculations, concepts, and more.
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="mt-6">
+                    <ChatInput onSend={handleSend} />
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
           </div>
         </div>
       </div>

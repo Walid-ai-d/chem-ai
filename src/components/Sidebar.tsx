@@ -77,12 +77,12 @@ const Sidebar = ({ isOpen, onToggle, onNewChat }: SidebarProps) => {
   }
 
   return (
-    <div className="fixed inset-y-0 left-0 z-50 w-80 bg-secondary text-secondary-foreground shadow-2xl">
+    <div className="fixed inset-y-0 left-0 z-50 w-80 bg-secondary text-secondary-foreground shadow-2xl animate-enter">
       {/* Header */}
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-chemistry-red to-primary rounded-md flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-chemistry-red to-primary rounded-md flex items-center justify-center shadow-md">
               <FlaskConical className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-white">ChemBot</span>
@@ -97,14 +97,7 @@ const Sidebar = ({ isOpen, onToggle, onNewChat }: SidebarProps) => {
           </Button>
         </div>
         
-        <Button
-          onClick={onNewChat}
-          className="w-full flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border-white/20"
-          variant="outline"
-        >
-          <Plus className="w-4 h-4" />
-          New Chat
-        </Button>
+        {/* New Chat button removed as requested */}
       </div>
 
       {/* Chat History */}
@@ -114,10 +107,11 @@ const Sidebar = ({ isOpen, onToggle, onNewChat }: SidebarProps) => {
             Recent Chats
           </h3>
           <div className="space-y-2">
-            {chatHistory.map((chat) => (
+            {chatHistory.map((chat, idx) => (
               <button
                 key={chat.id}
-                className="w-full text-left p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                className="w-full text-left p-3 rounded-lg hover:bg-white/5 transition-all group hover:shadow hover:translate-x-[1px] animate-fade-in"
+                style={{ animationDelay: `${idx * 40}ms` }}
               >
                 <h4 className="text-white font-medium text-sm mb-1 truncate">
                   {chat.title}

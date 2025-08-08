@@ -34,8 +34,10 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
     { value: 'oct-nov', label: 'Oct/Nov' },
     { value: 'feb-march', label: 'Feb/March' }
   ];
-  const papers = ['1', '2', '3', '4', '5'];
-  const variants = ['1', '2', '3'];
+  // Dynamic options per session rules
+  const basePapers = ['1', '2', '3', '4', '5'];
+  const papers = selection.session === 'feb-march' ? ['1', '2', '4', '5'] : basePapers;
+  const variants = selection.session === 'feb-march' ? ['2'] : ['1', '2', '3'];
 
   const stepTitles = {
     year: 'Select Year',
@@ -55,15 +57,16 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
     subpart: MoreHorizontal
   };
 
-  // Auto-progression logic
+  // Auto-progression logic with dynamic steps and subpart rules
   useEffect(() => {
-    const steps: Step[] = ['year', 'session', 'paper', 'variant', 'question', 'subpart'];
+    const allowsSubpart = ['2', '4', '5'].includes(selection.paperNumber);
+    const steps: Step[] = ['year', 'session', 'paper', 'variant', 'question', ...(allowsSubpart ? ['subpart'] as Step[] : [])];
     const currentIndex = steps.indexOf(currentStep);
-    
+
     const autoProgress = () => {
       if (currentIndex < steps.length - 1) {
         setCurrentStep(steps[currentIndex + 1]);
-      } else if (currentStep === 'subpart') {
+      } else if (currentStep === 'subpart' || (!allowsSubpart && currentStep === 'question')) {
         onComplete(selection);
       }
     };
@@ -155,6 +158,7 @@ const PastPaperSelector = ({ onComplete, onBack }: PastPaperSelectorProps) => {
           <h2 className="text-2xl font-semibold text-gray-800">
             {stepTitles[currentStep]}
           </h2>
+          <p className="text-sm text-gray-500">{selection.session === 'feb-march' ? 'Feb/March: only Variant 2 and Papers 1,2,4,5' : ''}</p>
         </div>
       </div>
 
